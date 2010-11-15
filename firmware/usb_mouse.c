@@ -44,6 +44,8 @@
 // match the INF file.
 #define VENDOR_ID           0x16C0
 #define PRODUCT_ID          0x0FFF
+#define RAWHID_USAGE_PAGE   0xFFAB  // recommended: 0xFF00 to 0xFFFF
+#define RAWHID_USAGE        0x0200  // recommended: 0x0100 to 0xFFFF
 
 
 // USB devices are supposed to implment a halt feature, which is
@@ -108,8 +110,13 @@ static uint8_t PROGMEM device_descriptor[] = {
 
 // Mouse Protocol 1, HID 1.11 spec, Appendix B, page 59-60, with wheel extension
 static uint8_t PROGMEM mouse_hid_report_desc[] = {
+    /* Uncomment these two lines and comment the next two LOC to convert this
+       usb device back to a HID mouse device.
     0x05, 0x01,         // Usage Page (Generic Desktop)
     0x09, 0x02,         // Usage (Mouse)
+    */
+    0x06, LSB(RAWHID_USAGE_PAGE), MSB(RAWHID_USAGE_PAGE),
+    0x0A, LSB(RAWHID_USAGE), MSB(RAWHID_USAGE),
     0xA1, 0x01,         // Collection (Application)
     0x05, 0x09,         //   Usage Page (Button)
     0x19, 0x01,         //   Usage Minimum (Button #1)
@@ -156,8 +163,13 @@ static uint8_t PROGMEM config1_descriptor[CONFIG1_DESC_SIZE] = {
     0,                              // bAlternateSetting
     1,                              // bNumEndpoints
     0x03,                           // bInterfaceClass (0x03 = HID)
-    0x00,                           // bInterfaceSubClass original is 0x01.
-    0x00,                           // bInterfaceProtocol original is 0x01.
+    /* Uncomment these lines and comment the next two LOC to convert this
+       device back to being an HID mouse device.
+    0x01,                           // bInterfaceSubClass
+    0x01,                           // bInterfaceProtoco
+    */
+    0x00,                           // bInterfaceSubClass
+    0x00,                           // bInterfaceProtoco
     0,                              // iInterface
     // HID interface descriptor, HID 1.11 spec, section 6.2.1
     9,                              // bLength
