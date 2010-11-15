@@ -7,7 +7,7 @@ static struct usb_device_id teensy_ids[] = {
     { } /* Terminate */
 };
 
-MODULE_DEVICE_TABLE(usb, tele_ids);
+MODULE_DEVICE_TABLE(usb, teensy_ids);
 
 /* The usb_driver structure for this driver */
 static struct usb_driver teensy_touchscreen_driver =
@@ -20,10 +20,10 @@ static struct usb_driver teensy_touchscreen_driver =
 
 /* Module Initialization */
 static int __init
-usb_tele_init(void)
+teensy_touchscreen_init(void)
 {
     /* Register with the USB core */
-    result = usb_register(&tele_driver);
+    result = usb_register(&teensy_touchscreen_driver);
 
     /* ... */
 
@@ -32,13 +32,13 @@ usb_tele_init(void)
 
 /* Module Exit */
 static void __exit
-usb_tele_exit(void)
+teensy_touchscreen_exit(void)
 {
     /* Unregister from the USB core */
-    usb_deregister(&tele_driver);
+    usb_deregister(&teensy_touchscreen_driver);
 
     return;
 }
 
-module_init(usb_tele_init);
-module_exit(usb_tele_exit);
+module_init(teensy_touchscreen_init);
+module_exit(teensy_touchscreen_exit);
