@@ -16,12 +16,14 @@ static int
 teensy_touchscreen_probe(struct usb_interface * interface,
         const struct usb_device_id * id)
 {
+    printk("teensy_touchscreen: Teensy touchscreen mouse device now connected.");
     return 0;
 }
 
 static void
 teensy_touchscreen_disconnect(struct usb_interface * interface)
 {
+    printk("teensy_touchscreen: Teensy touchscreen mouse device disconnected.");
 }
 
 /* The usb_driver structure for this driver */
