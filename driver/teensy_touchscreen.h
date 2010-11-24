@@ -10,5 +10,4 @@ struct teensy_touchscreen {
     struct input_dev * dev;
     struct urb * irq;
     signed char * data;
-}
-
+};
