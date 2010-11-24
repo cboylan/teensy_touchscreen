@@ -12,12 +12,24 @@ static struct usb_device_id teensy_ids[] = {
 
 MODULE_DEVICE_TABLE(usb, teensy_ids);
 
+static int
+teensy_touchscreen_probe(struct usb_interface * interface,
+        const struct usb_device_id * id)
+{
+    return 0;
+}
+
+static void
+teensy_touchscreen_disconnect(struct usb_interface * interface)
+{
+}
+
 /* The usb_driver structure for this driver */
 static struct usb_driver teensy_touchscreen_driver =
 {
     .name = "teensy_touchscreen",                   /* Unique name */
-    //.probe = teensy_touchscreen_probe,              /* See Listing 11.3 */
-    //.disconnect = teensy_touchscreen_disconnect,    /* See Listing 11.3 */
+    .probe = teensy_touchscreen_probe,              /* See Listing 11.3 */
+    .disconnect = teensy_touchscreen_disconnect,    /* See Listing 11.3 */
     .id_table = teensy_ids,                         /* See above */
 };
 
