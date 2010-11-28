@@ -46,7 +46,9 @@ TARGET = example
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC =	$(TARGET).c \
-	usb_mouse.c
+	usb_mouse_debug.c \
+	print.c \
+	sampling.c
 
 
 # MCU name, you MUST set this to match the board you are using
