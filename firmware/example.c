@@ -24,19 +24,32 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
+#include "sampling.h"
+
+//#define DEBUG
+
+#ifdef DEBUG
+#include "usb_mouse_debug.h"
+#include "print.h"
+#else 
 #include "usb_mouse.h"
+#endif
+
 
 #define LED_CONFIG	(DDRD |= (1<<6))
 #define LED_ON		(PORTD &= ~(1<<6))
 #define LED_OFF		(PORTD |= (1<<6))
 #define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
 
-int8_t circle[];
+uint8_t read_x();
+uint8_t read_y();
 
 int main(void)
 {
-	int8_t x, y, *p;
-	uint8_t i;
+	uint8_t x=0, y =0;
+	uint8_t px, py;
+	uint8_t initalized = 0;
+        int8_t deltax, deltay;
 
 	// set for 16 MHz clock
 	CPU_PRESCALE(0);
@@ -53,61 +66,81 @@ int main(void)
 	// and do whatever it does to actually be ready for input
 	_delay_ms(1000);
 
+	//adc_start(ADC_MUX_PIN_D7, ADC_REF_POWER);
 	while (1) {
-		_delay_ms(1000);
-		LED_ON;  // turn the LED on while moving the mouse
-		p = circle;
-		for (i=0; i<36; i++) {
-			x = pgm_read_byte(p++);
-			y = pgm_read_byte(p++);
-			usb_mouse_move(x, y, 0);
-			_delay_ms(20);
+
+		x = read_x();
+		y = read_y();
+
+		if (!initalized) {
+		  px = x;
+		  py = y;
+		  initalized = 1;
+		} else {
+		  deltax = px - x;
+		  deltay = py - y;
+		  if (((deltax < 18) &&  (deltax > -18))
+			&& (deltay < 18 && deltay > -18)) {
+
+#ifdef DEBUG
+		    if (deltax != 0 || deltay != 0) {
+		      print("x="); phex(deltax); print("\t");
+		      print("y="); phex(py - y); print("\n");
+		    }
+#endif
+		    usb_mouse_move(deltax, deltay, 0);
+		  }
+		  px = x;
+		  py = y;
 		}
-		LED_OFF;
-		_delay_ms(9000);
-		// This sequence creates a right click
-		//usb_mouse_buttons(0, 0, 1);
-		//_delay_ms(10);
-		//usb_mouse_buttons(0, 0, 0);
 	}
 }
 
+uint8_t read_x(void)
+{
+    uint8_t l,h;
 
-int8_t PROGMEM circle[] = {
-16, -1,
-15, -4,
-14, -7,
-13, -9,
-11, -11,
-9, -13,
-7, -14,
-4, -15,
-1, -16,
--1, -16,
--4, -15,
--7, -14,
--9, -13,
--11, -11,
--13, -9,
--14, -7,
--15, -4,
--16, -1,
--16, 1,
--15, 4,
--14, 7,
--13, 9,
--11, 11,
--9, 13,
--7, 14,
--4, 15,
--1, 16,
-1, 16,
-4, 15,
-7, 14,
-9, 13,
-11, 11,
-13, 9,
-14, 7,
-15, 4,
-16, 1
-};
+    DDRF = 0b00100010; // Output on F1(5V) and F5(GND), Input on F4(ADC)
+    PORTF |= _BV(1);
+    PORTF &= ~(_BV(5));
+    
+    PORTF |= _BV(6); // pullup resistor
+
+   
+    _delay_ms(50); //wait for screen to initialize
+   
+    ADMUX = (1 << REFS0) | (1 << MUX2); //ADC4
+    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER);
+
+    while(ADCSRA & (1 << ADSC));
+    l = ADCL;
+    h = ADCH & 0x03;
+    h = h << 6;
+    //h = h + l;
+    h = h | (l >> 2); 
+    return h;
+}
+
+uint8_t read_y(void)
+{
+    uint8_t l,h;
+
+    DDRF = 0b01010000; // Output on F4(5V) and F6(GND), Input on F1(ADC)
+    PORTF |= _BV(4);
+    PORTF &= ~(_BV(6));
+
+    PORTF |= _BV(5); // pullup resistor
+   
+    _delay_ms(50); //wait for screen to initialize
+   
+    ADMUX = (1<< REFS0) | (1 << MUX0); //ADC1
+    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER);
+
+    while(ADCSRA & (1 << ADSC));
+    l = ADCL;
+    h = ADCH & 0x03;
+    h = h << 6;
+    h = h | (l >> 2);
+
+    return h;
+}
