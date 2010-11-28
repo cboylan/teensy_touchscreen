@@ -20,6 +20,38 @@ MODULE_DEVICE_TABLE(usb, teensy_ids);
 static void
 teensy_touchscreen_irq(struct urb * urb)
 {
+	struct teensy_touchscreen *touchscreen = urb->context;
+	signed char *data = touchscreen->data;
+	struct input_dev *dev = touchscreen->dev;
+	int status;
+
+	switch (urb->status) {
+	case 0:			/* success */
+		break;
+	case -ECONNRESET:	/* unlink */
+	case -ENOENT:
+	case -ESHUTDOWN:
+		return;
+	/* -EPIPE:  should clear the halt */
+	default:		/* error */
+		goto resubmit;
+	}
+
+	input_report_key(dev, BTN_LEFT,   data[0] & 0x01);
+	input_report_key(dev, BTN_RIGHT,  data[0] & 0x02);
+	input_report_key(dev, BTN_MIDDLE, data[0] & 0x04);
+
+	input_report_rel(dev, REL_X,     data[1]);
+	input_report_rel(dev, REL_Y,     data[2]);
+	input_report_rel(dev, REL_WHEEL, data[3]);
+
+	input_sync(dev);
+resubmit:
+	status = usb_submit_urb (urb, GFP_ATOMIC);
+	if (status)
+		err ("can't resubmit intr, %s-%s/input0, status %d",
+				touchscreen->usbdev->bus->bus_name,
+				touchscreen->usbdev->devpath, status);
 }
 
 static int
