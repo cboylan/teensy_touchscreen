@@ -23,10 +23,10 @@
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
-#include "sampling.h"
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #include "usb_mouse_debug.h"
@@ -36,65 +36,171 @@
 #endif
 
 
-#define LED_CONFIG	(DDRD |= (1<<6))
-#define LED_ON		(PORTD &= ~(1<<6))
-#define LED_OFF		(PORTD |= (1<<6))
-#define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
+#define LED_CONFIG  (DDRD |= (1<<6))
+#define LED_ON      (PORTD &= ~(1<<6))
+#define LED_OFF     (PORTD |= (1<<6))
+#define CPU_PRESCALE(n) (CLKPR = 0x80, CLKPR = (n))
 
-uint8_t read_x();
-uint8_t read_y();
+#define ADC_PRESCALER_64 ((1<<ADPS2) | (1<<ADPS1))
+
+
+enum
+{
+    STATE_X_READ,
+    STATE_Y_START,
+    STATE_Y_READ,
+    STATE_X_START
+} Touchscreen_States;
+
+volatile uint16_t currentX, previousX;
+volatile uint16_t currentY, previousY;
+uint8_t currentState = STATE_X_READ;
+uint8_t initalized = 0;
+
+int8_t deltaX, deltaY;
+
+
+uint8_t read_x(void);
+uint8_t read_y(void);
+void move_mouse(void);
+void SetupTouchscreen(void);
 
 int main(void)
 {
-	uint8_t x=0, y =0;
-	uint8_t px, py;
-	uint8_t initalized = 0;
-        int8_t deltax, deltay;
+    // set for 16 MHz clock
+    CPU_PRESCALE(0);
+    LED_CONFIG;
+    LED_OFF;
 
-	// set for 16 MHz clock
-	CPU_PRESCALE(0);
-	LED_CONFIG;
-	LED_OFF;
+    // Initialize the USB, and then wait for the host to set configuration.
+    // If the Teensy is powered without a PC connected to the USB port,
+    // this will wait forever.
+    usb_init();
+    while (!usb_configured()) /* wait */ ;
 
-	// Initialize the USB, and then wait for the host to set configuration.
-	// If the Teensy is powered without a PC connected to the USB port,
-	// this will wait forever.
-	usb_init();
-	while (!usb_configured()) /* wait */ ;
+    // Wait an extra second for the PC's operating system to load drivers
+    // and do whatever it does to actually be ready for input
+    _delay_ms(1000);
+    SetupTouchscreen();
 
-	// Wait an extra second for the PC's operating system to load drivers
-	// and do whatever it does to actually be ready for input
-	_delay_ms(1000);
+    sei();
 
-	//adc_start(ADC_MUX_PIN_D7, ADC_REF_POWER);
-	while (1) {
-
-		x = read_x();
-		y = read_y();
-
-		if (!initalized) {
-		  px = x;
-		  py = y;
-		  initalized = 1;
-		} else {
-		  deltax = px - x;
-		  deltay = py - y;
-		  if (((deltax < 18) &&  (deltax > -18))
-			&& (deltay < 18 && deltay > -18)) {
-
-#ifdef DEBUG
-		    if (deltax != 0 || deltay != 0) {
-		      print("x="); phex(deltax); print("\t");
-		      print("y="); phex(py - y); print("\n");
-		    }
-#endif
-		    usb_mouse_move(deltax, deltay, 0);
-		  }
-		  px = x;
-		  py = y;
-		}
-	}
+    while (1) {}
 }
+
+
+/* Setup code for the touchscreen ADC and Timer */
+void SetupTouchscreen(void)
+{
+    /* ADC setup for single conversions */
+    //ADC_Init(ADC_RIGHT_ADJUSTED | ADC_PRESCALE_64 | ADC_REFERENCE_AREF | ADC_SINGLE_CONVERSION); 
+    ADCSRA = (( 1 << ADEN) | ADC_PRESCALER_64);
+    
+
+    /* Timer setup for 100Hz interrupts */
+    TCCR1B |= (1 << WGM12); // Configure timer 1 for CTC mode
+    //TCCR1A |= (1 << COM1A0); // Enable timer 1 Compare Output channel A in toggle mode
+    TIMSK1 |= (1 << OCIE1A); 
+    OCR1A   = 0x09C4; // Set CTC compare value to 100Hz at 16MHz AVR clock, with a prescaler of 64
+    TCCR1B |= ((1 << CS10) | (1 << CS11)); // Start timer at Fcpu/64
+}
+
+void setupY(void) 
+{
+    // SetupY 
+    DDRF = 0b01010000; // Output on F4(5V) and F6(GND), Input on F1(ADC)
+    PORTF |= _BV(4);
+    PORTF &= ~(_BV(6));
+    PORTF |= _BV(5); // pullup resistor
+}
+
+void setupX()
+{
+    // SetupX
+    DDRF = 0b00100010; // Output on F1(5V) and F5(GND), Input on F4(ADC)
+    PORTF |= _BV(1);
+    PORTF &= ~(_BV(5));
+    PORTF |= _BV(6); // pullup resistor
+}
+uint16_t getResult()
+{
+    uint16_t result;
+
+    ADCSRA |= (1 << ADIF); // Clear the flag
+    result = ADC;
+
+    return result;
+}
+
+/* Timer compare ISR, for ADC reads */
+ISR(TIMER1_COMPA_vect, ISR_BLOCK)
+{
+    switch (currentState)
+    {
+        case STATE_X_READ:
+            currentX = getResult();
+#if 0
+            phex16(currentX);
+#endif           
+            setupY();
+            currentState = STATE_Y_START;
+            break;
+        case STATE_Y_START:
+            ADMUX = (1<< REFS0) | (1 << MUX0); //ADC1
+            ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER_64);
+            
+            currentState = STATE_Y_READ;
+            break;
+        case STATE_Y_READ:
+            currentY = getResult();
+#if 1
+            phex16(currentY); print("\t");
+#endif
+            
+            move_mouse();
+           
+            setupX();
+            currentState = STATE_X_START;
+            break;
+        case STATE_X_START:
+            ADMUX = (1 << REFS0) | (1 << MUX2); //ADC4
+            ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER_64);
+           
+            currentState = STATE_X_READ;
+            break;
+    }
+} 
+
+
+void move_mouse(void) {
+
+    if (!initalized) {
+        initalized = 1;
+    } else {
+        // ignore least significant bit, as it's probably noise
+        currentX = currentX >> 1; 
+        currentY = currentY >> 1;
+
+        deltaX = previousX - currentX;
+        deltaY = previousY - currentY;
+    
+        if (((deltaX < 18) &&  (deltaX > -18))
+            && (deltaY < 18 && (deltaY > -18))) {
+        
+#if 0
+            if (deltaX != 0 || deltaY != 0) {
+              print("x="); phex(deltaX); print("\t");
+              print("y="); phex(deltaY); print("\n");
+            }
+#endif
+            usb_mouse_move(deltaX, deltaY, 0);
+        }
+    }
+            
+    previousX = currentX;
+    previousY = currentY;
+}
+
 
 uint8_t read_x(void)
 {
@@ -110,13 +216,12 @@ uint8_t read_x(void)
     _delay_ms(50); //wait for screen to initialize
    
     ADMUX = (1 << REFS0) | (1 << MUX2); //ADC4
-    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER);
+    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER_64);
 
     while(ADCSRA & (1 << ADSC));
     l = ADCL;
     h = ADCH & 0x03;
     h = h << 6;
-    //h = h + l;
     h = h | (l >> 2); 
     return h;
 }
@@ -134,7 +239,7 @@ uint8_t read_y(void)
     _delay_ms(50); //wait for screen to initialize
    
     ADMUX = (1<< REFS0) | (1 << MUX0); //ADC1
-    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER);
+    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER_64);
 
     while(ADCSRA & (1 << ADSC));
     l = ADCL;
