@@ -27,6 +27,8 @@
 #include <util/delay.h>
 
 
+#define DEBUG
+
 #ifdef DEBUG
 #include "usb_mouse_debug.h"
 #include "print.h"
@@ -64,7 +66,7 @@ int8_t deltaX, deltaY;
 char currButtonState = 0x1; // initial state not pressed
 
 /* HACK, current coordinats */
-#define COORD 'X'
+//#define COORD 'X'
 
 
 uint8_t read_x(void);
@@ -132,7 +134,7 @@ void setupY(void)
 {
     // SetupY 
     DDRF = 0b01010000; // Output on F4(5V) and F6(GND), Input on F1(ADC)
-    PORTF |= _BV(4);
+    PORTF = _BV(4);
     PORTF &= ~(_BV(6));
     PORTF |= _BV(5); // pullup resistor
 }
@@ -147,7 +149,7 @@ void setupX()
 {
     // SetupX
     DDRF = 0b00100010; // Output on F1(5V) and F5(GND), Input on F4(ADC)
-    PORTF |= _BV(1);
+    PORTF = _BV(1);
     PORTF &= ~(_BV(5));
     PORTF |= _BV(6); // pullup resistor
 }
@@ -158,7 +160,9 @@ uint16_t getResult()
 {
     uint16_t result;
 
+    //while(ADCSRA & (1 << ADSC));
     ADCSRA |= (1 << ADIF); // Clear the flag
+
     result = ADC;
 
     return result;
@@ -171,7 +175,7 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
     {
         case STATE_X_READ:
             currentX = getResult();
-#if 0
+#ifdef DEBUG
             phex16(currentX);
 #endif           
 #if defined COORD && COORD == 'X'
