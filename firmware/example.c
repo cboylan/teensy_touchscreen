@@ -26,7 +26,6 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-#define DEBUG
 
 #ifdef DEBUG
 #include "usb_mouse_debug.h"
@@ -62,7 +61,6 @@ int8_t deltaX, deltaY;
 /* previous button state, and current button state 
    used to detect click
 */
-char prevButtonState;
 char currButtonState = 0x1; // initial state not pressed
 
 /* HACK, current coordinats */
@@ -193,7 +191,7 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
             break;
         case STATE_Y_READ:
             currentY = getResult();
-#if 1
+#ifdef DEBUG
             phex16(currentY); print("\t");
 #endif
             
@@ -233,23 +231,19 @@ void move_mouse(void) {
         if (((deltaX < 18) &&  (deltaX > -18))
             && (deltaY < 18 && (deltaY > -18))) {
         
-#if 0
+#ifdef DEBUG
             if (deltaX != 0 || deltaY != 0) {
               print("x="); phex(deltaX); print("\t");
               print("y="); phex(deltaY); print("\n");
             }
 #endif
             usb_mouse_move(deltaX, deltaY, 0);
-            prevButtonState = currButtonState;
             currButtonState = PIND & 0x01;  // Care about D0 only
-            // old state pressed, new state not pressed
-            if ((!prevButtonState) && currButtonState) {
+            // button pressed
+            if (!currButtonState) {
                 usb_mouse_buttons(1, 0, 0);
-                _delay_us(1);
+            } else { // released
                 usb_mouse_buttons(0, 0, 0);
-#ifdef DEBUG
-                print("button pressed\n");
-#endif
             }
         }
     }
