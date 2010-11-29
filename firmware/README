@@ -1,0 +1,12 @@
+
+Pin Assignment
+
+                                    Values      Values
+                                    to get      to get
+Teensy          Touchscreen         X Pos.      Y Pos.
+------------------------------------------------------
+F1              X1                  5V          ADC 
+F4              Y2                  ADC         5V
+F5              X2                  GND         floating
+F6              Y1                  floating    GND
+
