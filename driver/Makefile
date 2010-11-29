@@ -4,7 +4,7 @@
 
 obj-m +=  teensy_touchscreen.o
 
-export KROOT=/lib/modules/2.6.24.7-test2/build
+export KROOT=/lib/modules/$(shell uname -r)/build
 
 allofit:   modules
 modules:
