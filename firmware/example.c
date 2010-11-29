@@ -59,6 +59,15 @@ uint8_t initalized = 0;
 
 int8_t deltaX, deltaY;
 
+/* previous button state, and current button state 
+   used to detect click
+*/
+char prevButtonState;
+char currButtonState = 0x1; // initial state not pressed
+
+/* HACK, current coordinats */
+#define COORD 'X'
+
 
 uint8_t read_x(void);
 uint8_t read_y(void);
@@ -81,8 +90,17 @@ int main(void)
     // Wait an extra second for the PC's operating system to load drivers
     // and do whatever it does to actually be ready for input
     _delay_ms(1000);
+
+    // Setup the timer interrupt that handles the touch screen,
+    // and setup the ADC
     SetupTouchscreen();
 
+    // initialize PIN D0 as digital input, others are set to 
+    // pullup resistor
+    DDRD = 0b00000000; 
+    DDRD = 0b11111110; 
+
+    // Enable interrupts
     sei();
 
     while (1) {}
@@ -105,6 +123,13 @@ void SetupTouchscreen(void)
     TCCR1B |= ((1 << CS10) | (1 << CS11)); // Start timer at Fcpu/64
 }
 
+/* Setup Y coordinates
+   Pin F4  -> 5V
+   Pin F6  -> GND
+   Pin F1  -> ADC
+   Pin F5  -> floating
+*/
+
 void setupY(void) 
 {
     // SetupY 
@@ -114,6 +139,12 @@ void setupY(void)
     PORTF |= _BV(5); // pullup resistor
 }
 
+/* Setup X Coordinates 
+    Pin F1 -> 5V
+    Pin F5 -> GND
+    Pin F4 -> ADC
+    Pin F6 -> floating
+*/
 void setupX()
 {
     // SetupX
@@ -122,6 +153,9 @@ void setupX()
     PORTF &= ~(_BV(5));
     PORTF |= _BV(6); // pullup resistor
 }
+
+/* return the result of the ADC */
+
 uint16_t getResult()
 {
     uint16_t result;
@@ -142,8 +176,14 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
 #if 0
             phex16(currentX);
 #endif           
+#if defined COORD && COORD == 'X'
+            setupX();
+            currentState = STATE_X_START;
+            move_mouse();
+#else
             setupY();
             currentState = STATE_Y_START;
+#endif
             break;
         case STATE_Y_START:
             ADMUX = (1<< REFS0) | (1 << MUX0); //ADC1
@@ -159,8 +199,13 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
             
             move_mouse();
            
+#if defined COORD && COORD == 'Y'
+            setupY();
+            currentState = STATE_Y_START;
+#else
             setupX();
             currentState = STATE_X_START;
+#endif
             break;
         case STATE_X_START:
             ADMUX = (1 << REFS0) | (1 << MUX2); //ADC4
@@ -174,6 +219,7 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
 
 void move_mouse(void) {
 
+    /* don't move the mouse unless we already took 2 readings */
     if (!initalized) {
         initalized = 1;
     } else {
@@ -194,6 +240,17 @@ void move_mouse(void) {
             }
 #endif
             usb_mouse_move(deltaX, deltaY, 0);
+            prevButtonState = currButtonState;
+            currButtonState = PIND & 0x01;  // Care about D0 only
+            // old state pressed, new state not pressed
+            if ((!prevButtonState) && currButtonState) {
+                usb_mouse_buttons(1, 0, 0);
+                _delay_us(1);
+                usb_mouse_buttons(0, 0, 0);
+#ifdef DEBUG
+                print("button pressed\n");
+#endif
+            }
         }
     }
             
