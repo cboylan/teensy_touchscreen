@@ -1,1 +1,25 @@
 CS572 TERM PROJECT
+Teensy Touchscreen
+December 6, 2010
+Clark Boylan, Nate Georgeson, Chris Noonan, Abdelhalim Ragab
+
+The Linux device driver module is GPLv2 licensed, and the firmware adapted from
+PJRC's example USB Mouse code retains the original PJRC license.
+
+The driver module makes great use of the existing
+linux/drivers/hid/usbhid/usbmouse.c driver though it has been simplified to
+work with this specific device and not explicitly use DMA in its URB. The
+firmware uses a modified usb_mouse.c file so that at compile time the builder
+can decide if the firmware should report as an HID mouse or not. The default is
+to not report as an HID mouse allowing the linux device driver module to talk
+to the device (otherwise Linux's HID driver takes over).
+
+To build the driver run `make` in the driver directory. To have the module auto
+loaded by usbcore you will then need to run `make modules_install` as root in
+that directory.
+
+To build and install the firmware you will need a teensy 2.0. To build the
+firmware run `make` in the firmware directory. To install the firmware we use
+PJRC's cli firmware loader. Run `teensy_loader_cli -mmcu=atmega32u4 -w
+firmware.hex`. Press the button on the teensy and the firmware should be
+loaded.
