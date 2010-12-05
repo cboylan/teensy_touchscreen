@@ -26,16 +26,12 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-
-#define DEBUG
-
 #ifdef DEBUG
 #include "usb_mouse_debug.h"
 #include "print.h"
 #else 
 #include "usb_mouse.h"
 #endif
-
 
 #define LED_CONFIG  (DDRD |= (1<<6))
 #define LED_ON      (PORTD &= ~(1<<6))
