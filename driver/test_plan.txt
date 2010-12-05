@@ -1,0 +1,21 @@
+To test the driver we will use a version of the firmware that draws a circle and
+verify its output with the evbug module.
+
+To begin compile the latest version of the driver module then install that
+module. Next run `git checkout b214268aa91e665170d73cafb4f40000adb69de2` in
+order to use older firmware that simply draws a circle. Now build the firmware
+and install it on a teensy. You should probably `git checkout master` at this
+point to return to current code.
+
+Now lsmod and verify the teensy_touchscreen module is not loaded. Plug in the
+teensy device and run lsmod again to check that the module was automatically
+loaded. Next we need to load the evbug module (this module will need to be
+selected when you build your kernel) so modprobe evbug. Now we can verify that
+we receive data from the teensy properly. Run dmesg to see the evbug output.
+Every 10 seconds we should see 36 vectors that draw a circle. Be careful with
+evbug loaded as it will capture all input device inputs (passwords etc).
+
+With the evbug data verified we can physically disconnect the teensy device. Now
+rmmod the teensy_touchscreen module. Finally run dmesg to verify that the device
+was properly disconnected in software and that the module was unloaded. You can
+also verify the last portion with an lsmod.
