@@ -1,0 +1,277 @@
+Script started on Sun 05 Dec 2010 06:33:17 PM EST
+debian:/home/clark/repos/teensy_touchscreen/driver# lsmod
+Module                  Size  Used by
+e1000                 108992  0 
+debian:/home/clark/repos/teensy_touchscreen/driver# lsmod
+Module                  Size  Used by
+teensy_touchscreen      8064  0 
+e1000                 108992  0 
+debian:/home/clark/repos/teensy_touchscreen/driver# de[Kmesg | tail
+usb 2-2: new full speed USB device using ohci_hcd and address 3
+usb 2-2: configuration #1 chosen from 1 choice
+HID device claimed by neither input, hiddev nor hidraw
+teensy_touchscreen: Max packet size is 4.
+teensy_touchscreen: phys location usb-0000:00:06.0-2/input0.
+input: CS572 Teensy_Touchscreen as /class/input/input5
+teensy_touchscreen: Teensy touchscreen mouse device now connected.
+usbcore: registered new interface driver teensy_touchscreen
+teensy_touchscreen:Teensy touchscreen mouse driver loaded.
+atkbd.c: Spurious NAK on isa0060/serio0. Some program might be trying access hardware directly.
+debian:/home/clark/repos/teensy_touchscreen/driver# o[Kmodprobe evbug
+debian:/home/clark/repos/teensy_touchscreen/driver# dmesg | grep usb-0000:00:06.0-2/input0
+teensy_touchscreen: phys location usb-0000:00:06.0-2/input0.
+evbug.c: Connected device: "CS572 Teensy_Touchscreen", usb-0000:00:06.0-2/input0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: -1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 11
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 13
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 9
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 14
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 7
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 15
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 4
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 0, Value: 16
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 2, Code: 1, Value: 1
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+debian:/home/clark/repos/teensy_touchscreen/driver# modprobe -r evbug
+debian:/home/clark/repos/teensy_touchscreen/driver# dmesg | tail
+evbug.c: Event. Dev: usb-0000:00:06.0-2/input0, Type: 0, Code: 0, Value: 0
+evbug.c: Disconnected device: LNXPWRBN/button/input0
+evbug.c: Disconnected device: LNXSLPBN/button/input0
+evbug.c: Disconnected device: isa0060/serio0/input0
+evbug.c: Disconnected device: isa0060/serio1/input0
+evbug.c: Disconnected device: usb-0000:00:06.0-1/input0
+evbug.c: Disconnected device: usb-0000:00:06.0-2/input0
+usb 2-2: USB disconnect, address 3
+teensy_touchscreen:Teensy touchscreen mouse device disconnected.
+atkbd.c: Spurious NAK on isa0060/serio0. Some program might be trying access hardware directly.
+debian:/home/clark/repos/teensy_touchscreen/driver# lsmod
+Module                  Size  Used by
+teensy_touchscreen      8064  0 
+e1000                 108992  0 
+debian:/home/clark/repos/teensy_touchscreen/driver# rmmod teensy_touchscreen.[K
+debian:/home/clark/repos/teensy_touchscreen/driver# dmesg | tail
+evbug.c: Disconnected device: LNXPWRBN/button/input0
+evbug.c: Disconnected device: LNXSLPBN/button/input0
+evbug.c: Disconnected device: isa0060/serio0/input0
+evbug.c: Disconnected device: isa0060/serio1/input0
+evbug.c: Disconnected device: usb-0000:00:06.0-1/input0
+evbug.c: Disconnected device: usb-0000:00:06.0-2/input0
+usb 2-2: USB disconnect, address 3
+teensy_touchscreen:Teensy touchscreen mouse device disconnected.
+atkbd.c: Spurious NAK on isa0060/serio0. Some program might be trying access hardware directly.
+usbcore: deregistering interface driver teensy_touchscreen
+debian:/home/clark/repos/teensy_touchscreen/driver# exit
+exit
+
+Script done on Sun 05 Dec 2010 06:35:56 PM EST
