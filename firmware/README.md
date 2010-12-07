@@ -26,6 +26,18 @@ The algorithm works as follows:
   movement) is sent to the driver to move the mouse cursor.
 
 
+#### Source files
+
+* firmware.c main source file that contain all of touchpad handling functionality
+* print.[ch] used for dubugging
+* usb_mouse.[ch] All of the usb mouse support functionality
+* usb_mouse_debug.[ch] Same as the previous one with debug hooks where the firmware 
+	can print debug message which is sent to the host, where hid_listen utility 
+	can display them. 
+
+Note that either usb_mouse.c or usb_mouse_debug.c should be linked to firmware.c
+
+
 ###Hardware connections
 
 
