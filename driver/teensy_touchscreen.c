@@ -1,6 +1,8 @@
 /*  Driver for the teensy touchscreen firmware.
     Copyright (C) 2010 Clark Boylan, Nate Georgeson, Chris Noonan, Abdelhalim
     Ragab.
+    Copyright (c) 1999-2001 Vojtech Pavlik
+    
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

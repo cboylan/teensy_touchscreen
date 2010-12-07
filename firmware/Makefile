@@ -46,7 +46,7 @@ TARGET = firmware
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC =	$(TARGET).c \
-	usb_mouse.c \
+	usb_mouse_debug.c \
 	print.c
 
 
