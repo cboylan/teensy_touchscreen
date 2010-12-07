@@ -15,7 +15,7 @@ according to the touchscreen specs.</p>
 <h1>Hardware connections</h1>
 
 
-Pin Assignment:
+<h4>Pin Assignment</h4>
 <table>
   <tr>
   	<td>Teensy</td>
@@ -53,5 +53,7 @@ Pin Assignment:
 <p>A push button is connected to the teensy D0 pin, when pressed the firmware
 send a left click to the driver.</p>
 
-<h3>Schematic diagram:</h3>
+<h4>Schematic diagram:</h4>
 ![teensy_touchscreen] (https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
+
+Schematic for the teensy connections with the touchscreen
