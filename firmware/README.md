@@ -50,10 +50,10 @@ according to the touchscreen specs.</p>
 
 </table>
 
-<p>A push button is connected to the teensy D0 pin, when pressed the firmware
-send a left click to the driver.</p>
+A push button is connected to the teensy D0 pin, when pressed the firmware
+send a left click to the driver.
 
 <h4>Schematic diagram:</h4>
-![teensy_touchscreen] (https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
+![teensy_touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
 
 Schematic for the teensy connections with the touchscreen
