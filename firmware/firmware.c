@@ -1,6 +1,11 @@
-/* Mouse example with debug channel, for Teensy USB Development Board
+/* Teensy Touchpad firmware, adapted from the Mouse example with 
+ * debug channel, for Teensy USB Development Board
  * http://www.pjrc.com/teensy/usb_mouse.html
+ * Some code snippets and ideas are used from AVRfreaks forums
+ *
  * Copyright (c) 2009 PJRC.COM, LLC
+ * Copyright (c) 2010 Clark Boylan, Nate Georgeson, Chris Noonan, 
+ * and Abdelhalim Ragab
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +45,8 @@
 
 #define ADC_PRESCALER_64 ((1<<ADPS2) | (1<<ADPS1))
 
+#define THRESHOLD 18
+
 
 enum
 {
@@ -65,10 +72,8 @@ char currButtonState = 0x1; // initial state not pressed
 //#define COORD 'X'
 
 
-uint8_t read_x(void);
-uint8_t read_y(void);
 void move_mouse(void);
-void SetupTouchscreen(void);
+void setup(void);
 
 int main(void)
 {
@@ -89,7 +94,7 @@ int main(void)
 
     // Setup the timer interrupt that handles the touch screen,
     // and setup the ADC
-    SetupTouchscreen();
+    setup();
 
     // initialize PIN D0 as digital input, others are set to 
     // pullup resistor
@@ -104,7 +109,7 @@ int main(void)
 
 
 /* Setup code for the touchscreen ADC and Timer */
-void SetupTouchscreen(void)
+void setup(void)
 {
     /* ADC setup for single conversions */
     //ADC_Init(ADC_RIGHT_ADJUSTED | ADC_PRESCALE_64 | ADC_REFERENCE_AREF | ADC_SINGLE_CONVERSION); 
@@ -215,6 +220,15 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
 } 
 
 
+/* Move the mouse pointer 
+ * This method calculate the delta between the previous touch
+ * locaion and the current new location (relative movement
+ * and moves the mouse pointer accordingly
+ *
+ * The lowest bit is discarded to compansate for noise from
+ * the touchpad and the ADC.
+*/
+
 void move_mouse(void) {
 
     /* don't move the mouse unless we already took 2 readings */
@@ -228,8 +242,8 @@ void move_mouse(void) {
         deltaX = previousX - currentX;
         deltaY = previousY - currentY;
     
-        if (((deltaX < 18) &&  (deltaX > -18))
-            && (deltaY < 18 && (deltaY > -18))) {
+        if (((deltaX < THRESHOLD) &&  (deltaX > -THRESHOLD))
+            && (deltaY < THRESHOLD && (deltaY > -THRESHOLD))) {
         
 #ifdef DEBUG
             if (deltaX != 0 || deltaY != 0) {
@@ -253,50 +267,3 @@ void move_mouse(void) {
 }
 
 
-uint8_t read_x(void)
-{
-    uint8_t l,h;
-
-    DDRF = 0b00100010; // Output on F1(5V) and F5(GND), Input on F4(ADC)
-    PORTF |= _BV(1);
-    PORTF &= ~(_BV(5));
-    
-    PORTF |= _BV(6); // pullup resistor
-
-   
-    _delay_ms(50); //wait for screen to initialize
-   
-    ADMUX = (1 << REFS0) | (1 << MUX2); //ADC4
-    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER_64);
-
-    while(ADCSRA & (1 << ADSC));
-    l = ADCL;
-    h = ADCH & 0x03;
-    h = h << 6;
-    h = h | (l >> 2); 
-    return h;
-}
-
-uint8_t read_y(void)
-{
-    uint8_t l,h;
-
-    DDRF = 0b01010000; // Output on F4(5V) and F6(GND), Input on F1(ADC)
-    PORTF |= _BV(4);
-    PORTF &= ~(_BV(6));
-
-    PORTF |= _BV(5); // pullup resistor
-   
-    _delay_ms(50); //wait for screen to initialize
-   
-    ADMUX = (1<< REFS0) | (1 << MUX0); //ADC1
-    ADCSRA = (1 << ADEN)|(1 << ADSC)|(1<< ADC_PRESCALER_64);
-
-    while(ADCSRA & (1 << ADSC));
-    l = ADCL;
-    h = ADCH & 0x03;
-    h = h << 6;
-    h = h | (l >> 2);
-
-    return h;
-}
