@@ -1,21 +1,31 @@
 
-<p>Teensy teouchpad firmware  <br>
-Fall 2010</p>
+Teensy teouchpad firmware  
+Fall 2010
 
-<p>Firmware for the Teensy touchpad device.  <br>
-Tested on Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel</p>
+Firmware for the Teensy touchpad device.  
+Tested on Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel
 
-<h1>Firmware</h1>
+###Firmware
 
-<p>The firmware interacts with 4 teensy pins, specified in the next section, 
-according to the touchscreen specs.</p>
+The firmware interacts with 4 teensy pins, specified in the next section, 
+according to the touchscreen specs.  
+
+
 ![touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/bussbarssmall.jpg)
-<p>Image taken from http://www.sparkfun.com/tutorials/139</p>
-
-<h1>Hardware connections</h1>
+Image taken from http://www.sparkfun.com/tutorials/139
 
 
-<h4>Pin Assignment</h4>
+The algorithm works as follows:
+- Timer is enabled and set to spcific period
+- The timer ISR implements a state machine that is responsible for 
+  preparing the touchpad for the next read, then on the next interrupt do 
+  the actual read
+
+
+###Hardware connections
+
+
+####Pin Assignment
 <table>
   <tr>
   	<td>Teensy</td>
@@ -53,7 +63,7 @@ according to the touchscreen specs.</p>
 A push button is connected to the teensy D0 pin, when pressed the firmware
 send a left click to the driver.
 
-<h4>Schematic diagram:</h4>
+####Schematic diagram:
 ![teensy_touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
 
 Schematic for the teensy connections with the touchscreen
