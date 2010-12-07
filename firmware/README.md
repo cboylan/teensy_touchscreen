@@ -8,7 +8,7 @@ Tested on Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel</p>
 
 <p>The firmware interacts with 4 teensy pins, specified in the next section, 
 according to the touchscreen specs.</p>
-![touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/bussbarslarge.jpg)
+![touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/bussbarssmall.jpg)
 Image taken from
  http://www.sparkfun.com/tutorials/139</p>
 
