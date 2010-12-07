@@ -9,10 +9,10 @@ Tested on Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel</p>
 <p>The firmware interacts with 4 teensy pins, specified in the next section, 
 according to the touchscreen specs.</p>
 ![touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/bussbarssmall.jpg)
-Image taken from
- http://www.sparkfun.com/tutorials/139</p>
+<p>Image taken from http://www.sparkfun.com/tutorials/139</p>
 
 <h1>Hardware connections</h1>
+
 
 <p>Pin Assignment:
 <table>
@@ -51,3 +51,8 @@ Image taken from
 
 <p>A push button is connected to the teensy D0 pin, when pressed the firmware
 send a left click to the driver.</p>
+
+<p>Schematic diagram:
+![schematic](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
+
+</p>
