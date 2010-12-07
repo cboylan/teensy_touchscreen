@@ -1,9 +1,8 @@
 
-Teensy teouchpad firmware  
+###Teensy touchpad firmware  
 Fall 2010
 
-Firmware for the Teensy touchpad device.  
-Tested on Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel
+Firmware for Teensy touchpad device.  
 
 ###Firmware
 
@@ -15,11 +14,15 @@ according to the touchscreen specs.
 Image taken from http://www.sparkfun.com/tutorials/139
 
 
-The algorithm works as follows:
-- Timer is enabled and set to spcific period
-- The timer ISR implements a state machine that is responsible for 
-  preparing the touchpad for the next read, then on the next interrupt do 
-  the actual read
+The algorithm works as follows:  
+
+* Timer is enabled and set to spcific period  
+* The timer ISR implements a state machine with four states where one state outputs
+  the necessary values to read from particular axis then the next state which is 
+  activated in the next ISR does the actual reading.
+* The firmware discards the lowest bit to reduce the noise.
+* The difference between the current reading and the previous reading (relative 
+  movement) is sent to the driver to move the mouse cursor.
 
 
 ###Hardware connections
@@ -66,4 +69,7 @@ send a left click to the driver.
 ####Schematic diagram:
 ![teensy_touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
 
-Schematic for the teensy connections with the touchscreen
+
+#### Testing
+Firmware has been tested on Teensy 2.0 
+Driver has been tested on a system running Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel
