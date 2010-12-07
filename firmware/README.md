@@ -19,7 +19,8 @@ The algorithm works as follows:
 * Timer is enabled and set to spcific period  
 * The timer ISR implements a state machine with four states where one state outputs
   the necessary values to read from particular axis then the next state which is 
-  activated in the next ISR does the actual reading.
+  activated in the next ISR does the actual reading, then the next state prepares for 
+  reading from the other axis, and so on.
 * The firmware discards the lowest bit to reduce the noise.
 * The difference between the current reading and the previous reading (relative 
   movement) is sent to the driver to move the mouse cursor.
