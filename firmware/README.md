@@ -24,25 +24,25 @@ Image taken from
   </tr>
   <tr>
   	<td>F1</td>
-  	<td>F4</td>
-  	<td>F5</td>
-  	<td>F6</td>
-  </tr>
-  <tr>
   	<td>X1</td>
-  	<td>Y2</td>
-  	<td>X2</td>
-  	<td>Y1</td>
-  </tr>
-  <tr>
   	<td>5V</td>
   	<td>ADC</td>
-  	<td>GND</td>
+  </tr>
+  <tr>
+  	<td>F4</td>
+  	<td>Y2</td>
+  	<td>ADC</td>
+  	<td>5V</td>
+  </tr>
+  <tr>
+  	<td>F5</td>
+  	<td>X2</td>
+  	<td>GND</td>  	
   	<td>floating</td>
   </tr>
   <tr>
-  	<td>ADC</td>
-  	<td>5V</td>
+  	<td>F6</td>
+  	<td>Y1</td>
   	<td>floating</td>
   	<td>GND</td>
   </tr>
