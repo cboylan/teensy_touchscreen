@@ -1,7 +1,8 @@
-<p>Teensy teouchpad firmware  
+
+<p>Teensy teouchpad firmware  <br>
 Fall 2010</p>
 
-<p>Firmware for the Teensy touchpad device.  
+<p>Firmware for the Teensy touchpad device.  <br>
 Tested on Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel</p>
 
 <h1>Firmware</h1>
@@ -53,5 +54,4 @@ Pin Assignment:
 send a left click to the driver.</p>
 
 <h3>Schematic diagram:</h3>
-![schematic] (https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
-
+![teensy_touchscreen] (https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
