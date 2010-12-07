@@ -52,6 +52,6 @@ Pin Assignment:
 <p>A push button is connected to the teensy D0 pin, when pressed the firmware
 send a left click to the driver.</p>
 
-<p>Schematic diagram:</p>
+<h3>Schematic diagram:</h3>
 ![schematic] (https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/Teensy_Touchscreen.png)
 
