@@ -1,15 +1,16 @@
-<p>Teensy teouchpad firmware
+<p>Teensy teouchpad firmware  
 Fall 2010</p>
 
-<p>Firmware for the Teensy touchpad device.
+<p>Firmware for the Teensy touchpad device.  
 Tested on Debian GNU/Linux 5.0 Lenny with 2.6.24 kernel</p>
 
 <h1>Firmware</h1>
 
 <p>The firmware interacts with 4 teensy pins, specified in the next section, 
 according to the touchscreen specs.</p>
-
-<p>http://www.sparkfun.com/tutorials/139</p>
+![touchscreen](https://github.com/cboylan/teensy_touchscreen/raw/master/firmware/docs/bussbarslarge.jpg)
+Image taken from
+ http://www.sparkfun.com/tutorials/139</p>
 
 <h1>Hardware connections</h1>
 
