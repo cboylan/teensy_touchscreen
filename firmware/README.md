@@ -42,6 +42,7 @@ Note that either usb_mouse.c or usb_mouse_debug.c should be linked to firmware.c
 ###Hardware 
 
 ####Components
+* Teensy 2.0 from [pjrc.com](http://www.pjrc.com/store/teensy_pins.html)
 * Nintendo DS Touch Screen from [dealexterme.com](http://www.dealextreme.com/details.dx/sku.3245)
 * Nintendo DS Touch Screen Connector Breakout from [sparkfun.com](http://www.sparkfun.com/products/9170) 
 * Push button
