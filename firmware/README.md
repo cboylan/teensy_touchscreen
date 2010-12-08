@@ -24,6 +24,7 @@ The algorithm works as follows:
 * The firmware discards the lowest bit to reduce the noise.
 * The difference between the current reading and the previous reading (relative 
   movement) is sent to the driver to move the mouse cursor.
+* Scaling factor exist to control the cursor speed on Linux.
 
 
 #### Source files
@@ -38,10 +39,17 @@ The algorithm works as follows:
 Note that either usb_mouse.c or usb_mouse_debug.c should be linked to firmware.c
 
 
-###Hardware connections
+###Hardware 
+
+####Components
+* Nintendo DS Touch Screen from [dealexterme.com](http://www.dealextreme.com/details.dx/sku.3245)
+* Nintendo DS Touch Screen Connector Breakout from [sparkfun.com](http://www.sparkfun.com/products/9170) 
+* Push button
+* 10k Resistor
+* Breadboard and Wires for the prototype
 
 
-####Pin Assignment
+####Connections and Pin Assignment
 <table>
   <tr>
   	<td>Teensy</td>
